@@ -1,0 +1,65 @@
+#include <raylib.h>
+
+/*
+ * Meow Cubes - A game where the main objective it to throw cubes at cats
+ * Copyright (c) 2026 Donut Oreo Computer
+ *
+ * This software is licensed under the GNU General Public License v3; You can
+ * edit, modify or distribute this source code. Check the LICENSE file for
+ * more information.
+ */
+
+#define SCREEN_X GetScreenWidth()
+#define SCREEN_Y GetScreenHeight()
+
+int main(void) {
+    InitWindow(1920, 1080, "Meow Cubes");
+    SetTargetFPS(60);
+    DisableCursor();
+
+    // Initialize variables
+    char *title = "Meow Cubes !ALPHA!";
+    float speed = 0.2f;
+    Model kitty = LoadModel("assets/animal-cat.glb");
+    
+    Camera3D camera   = { 0 };
+    camera.position   = (Vector3){ 0.0f, 3.0f, 4.0f };
+    camera.target     = (Vector3){ 0.0f, 0.0f, 0.0f };
+    camera.up         = (Vector3){ 0.0f, 1.0f, 0.0f };
+    camera.fovy       = 45.0f;
+    camera.projection = CAMERA_PERSPECTIVE;
+
+    // Main loop
+    while (!WindowShouldClose()) {
+        UpdateCamera(&camera, CAMERA_FREE);
+        if (IsKeyDown(KEY_W)) {
+            camera.position.z -= speed;
+            camera.target.z -= speed;
+        } else if (IsKeyDown(KEY_A)) {
+            camera.position.x -= speed;
+            camera.target.x -= speed;
+        } else if (IsKeyDown(KEY_S)) {
+            camera.position.z += speed;
+            camera.target.z += speed;
+        } else if (IsKeyDown(KEY_D)) {
+            camera.position.x += speed;
+            camera.target.x += speed;
+        }
+
+        BeginDrawing();
+        ClearBackground(DARKGRAY);
+
+        // 3D Stuff
+        BeginMode3D(camera);
+        DrawModel(kitty, (Vector3){0.0f, 0.2f, 0.0f}, 1.0f, RAYWHITE);
+        EndMode3D();
+
+        // 2D UI
+        int title_width = MeasureText(title, 32);
+        DrawText(title, (SCREEN_X - title_width) / 2, 10, 32, RAYWHITE);
+        EndDrawing();
+    }
+
+    CloseWindow();
+    return 0;
+}

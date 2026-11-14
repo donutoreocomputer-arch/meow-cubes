@@ -18,9 +18,10 @@ int main(void) {
     DisableCursor();
 
     // Initialize variables
-    char *title = "Meow Cubes !ALPHA!";
-    float speed = 0.2f;
+    char *title = "Meow Cubes v0";
+    float speed = 0.5f * GetFrameTime();
     Model kitty = LoadModel("assets/animal-cat.glb");
+    Model grass = LoadModel("assets/grass.glb");
     
     Camera3D camera   = { 0 };
     camera.position   = (Vector3){ 0.0f, 3.0f, 4.0f };
@@ -35,13 +36,13 @@ int main(void) {
         if (IsKeyDown(KEY_W)) {
             camera.position.z -= speed;
             camera.target.z -= speed;
-        } else if (IsKeyDown(KEY_A)) {
+        } if (IsKeyDown(KEY_A)) {
             camera.position.x -= speed;
             camera.target.x -= speed;
-        } else if (IsKeyDown(KEY_S)) {
+        } if (IsKeyDown(KEY_S)) {
             camera.position.z += speed;
             camera.target.z += speed;
-        } else if (IsKeyDown(KEY_D)) {
+        } if (IsKeyDown(KEY_D)) {
             camera.position.x += speed;
             camera.target.x += speed;
         }
@@ -51,7 +52,11 @@ int main(void) {
 
         // 3D Stuff
         BeginMode3D(camera);
-        DrawModel(kitty, (Vector3){0.0f, 0.2f, 0.0f}, 1.0f, RAYWHITE);
+
+        DrawModel(kitty, (Vector3){0.0f, 0.0f, 0.0f}, 1.0f, RAYWHITE);
+        DrawModel(grass, (Vector3){0.0f, 0.0f, 0.0f}, 10.0f, RAYWHITE);
+        DrawCube((Vector3){2.0f, 1.0f, 0.0f}, 2.0f, 2.0f, 2.0f, DARKBLUE);
+        
         EndMode3D();
 
         // 2D UI
@@ -60,6 +65,8 @@ int main(void) {
         EndDrawing();
     }
 
+    UnloadModel(kitty);
+    UnloadModel(grass);
     CloseWindow();
     return 0;
 }

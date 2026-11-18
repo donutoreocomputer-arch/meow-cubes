@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wall -Wextra -Wpedantic -std=c23 -lraylib -o $(BIN)
+CFLAGS = -Wall -Wextra -Wpedantic -std=c23 -lraylib -o $(BIN) -g
 SRC = src/main.c
 BIN = cats
 

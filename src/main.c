@@ -20,6 +20,13 @@ typedef struct {
     Vector3 velocity; /* Fiziks! */
 } MeowCube;
 
+void check_fence_collision(Camera3D *camera) {
+    if (camera->position.x < -15.5f) camera->position.x = -15.5f;
+    if (camera->position.x > 15.5f ) camera->position.x = 15.5f;
+    if (camera->position.z < -15.5f) camera->position.z = -15.5f;
+    if (camera->position.z > 15.5f ) camera->position.z = 15.5f;
+}
+
 /* ...What the what? */
 void throw_meowcube(MeowCube *cube, Vector3 direction, float force) {
     direction = Vector3Normalize(direction);
@@ -63,6 +70,7 @@ int main(void) {
     /* Main loop */
     while (!WindowShouldClose()) {
         UpdateCamera(&camera, CAMERA_FIRST_PERSON);
+        check_fence_collision(&camera);
         BeginDrawing();
         ClearBackground(DARKGRAY);
         if (got_cube == true) {

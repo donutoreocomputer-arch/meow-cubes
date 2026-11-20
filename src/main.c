@@ -38,6 +38,23 @@ void update_meowcube(MeowCube *cube, Vector3 cat_position) {
     if (CheckCollisionSpheres(cube->position, 0.5f, cat_position, 0.8f)) {
         cube->velocity = Vector3Zero(); /* If cube has hit cat, make velocity 0. */
     }
+
+    if (cube->position.x < -15.5f) {
+        cube->position.x = -15.5f;
+        cube->velocity = Vector3Zero();
+    } if (cube->position.x > 15.5f ) {
+        cube->position.x = 15.5f;
+        cube->velocity = Vector3Zero();
+    } if (cube->position.z < -15.5f) {
+        cube->position.z = -15.5f;
+        cube->velocity = Vector3Zero();
+    } if (cube->position.z > 15.5f ) {
+        cube->position.z = 15.5f;
+        cube->velocity = Vector3Zero();
+    } if (cube->position.y < 0.5f) {
+        cube->position.y = 0.5f;
+        cube->velocity = Vector3Zero();
+    }
 }
 
 int main(void) {
